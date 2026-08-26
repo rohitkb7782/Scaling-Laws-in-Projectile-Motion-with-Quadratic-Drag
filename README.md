@@ -63,6 +63,34 @@ $$
 \frac{dv_y}{dt}=-g
 $$
 
+This set of differential equations can be solved analytically. Given an initial position $(x_0,y_0)$, initial speed $v_0$, and launch angle $\theta$, the initial velocity components are
+
+$$
+v_{x,0}=v_0\cos\theta,
+\qquad
+v_{y,0}=v_0\sin\theta.
+$$
+
+Integrating the equations of motion gives the position as a function of time:
+
+$$
+x(t)=x_0+v_0\cos\theta\,t
+$$
+
+and
+
+$$
+y(t)=y_0+v_0\sin\theta\,t-\frac{1}{2}gt^2.
+$$
+
+For a projectile launched and landing at the same height, with $x_0=y_0=0$, the analytical range is
+
+$$
+R=\frac{v_0^2\sin(2\theta)}{g}.
+$$
+
+This analytical solution provides a reference for validating the numerical Euler solution and measuring its error as the timestep is varied.
+
 ### Quadratic Air Resistance
 
 The drag force is modeled as
@@ -167,7 +195,22 @@ Because Euler's Method evaluates the derivative only at the beginning of each ti
 
 The ideal projectile model provides an analytical reference against which this numerical error can be measured.
 
-To improve the accuracy of the estimated range, the impact location is determined by linearly interpolating between the final point above the ground and the first point below it.
+Because Euler's Method calculates the projectile at discrete time steps, the projectile will usually pass through $y=0$ between two calculated points. If the first point below the ground is $(x_2,y_2)$, the previous point $(x_1,y_1)$ is still above the ground.
+
+The impact point is estimated by assuming the motion is approximately linear between these two points. The fraction of the timestep needed to reach $y=0$ is
+
+$$
+\alpha=\frac{y_1}{y_1-y_2}.
+$$
+
+The corresponding horizontal position is then
+
+$$
+x_{\mathrm{ground}}=
+x_1+\alpha(x_2-x_1).
+$$
+
+Thus, instead of taking the first calculated point below the ground as the impact location, the code estimates where the projectile crosses $y=0$ within the final timestep. The interpolated point is then stored as the final point of the trajectory.
 
 ## Results
 
@@ -331,9 +374,7 @@ The program generates trajectory plots and performs the corresponding numerical 
 
 ## Conclusion
 
-This project began as a numerical simulation of projectile motion and developed into an investigation of the structure of a nonlinear physical system.
-
-The ideal projectile model provided a controlled environment for validating Euler's Method. Quadratic air resistance was then introduced and used to study how drag changes projectile trajectories and the optimal launch angle.
+This project began as a numerical simulation of projectile motion and developed into an investigation of the structure of a nonlinear physical system. The ideal projectile model provided a controlled environment for validating Euler's Method. Quadratic air resistance was then introduced and used to study how drag changes projectile trajectories and the optimal launch angle.
 
 Dimensional analysis revealed the parameter
 
@@ -341,8 +382,4 @@ $$
 \alpha=\frac{cv_0^2}{mg},
 $$
 
-which combines the relevant physical quantities into a single dimensionless measure of drag strength. Computational experiments then tested this prediction by constructing physically different systems with identical values of $\alpha$.
-
-The resulting collapse of the normalized trajectories provides numerical evidence that the dimensionless parameter captures the underlying scaling of the system.
-
-This progression—from numerical validation, to physical investigation, to dimensional analysis, and finally to computational testing—forms the central structure of the project.
+which combines the relevant physical quantities into a single dimensionless measure of drag strength. Computational experiments then tested this prediction by constructing physically different systems with identical values of $\alpha$. The resulting collapse of the normalized trajectories provides numerical evidence that the dimensionless parameter captures the underlying scaling of the system.
