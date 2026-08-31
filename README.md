@@ -306,6 +306,27 @@ provides a natural measure of drag strength relative to gravity.
 * Different combinations of $c$, $v_0$, and $m$ that produce the same $\alpha$ generate closely overlapping normalized trajectories.
 * The computational results therefore support the idea that $\alpha$ is the relevant dimensionless parameter governing the scaled drag problem.
 
+## Future Improvements
+
+* Implement higher-order integration methods such as Runge-Kutta (RK4)
+* Compare the convergence and computational cost of different numerical integration methods
+* Add wind forces
+* Investigate non-uniform air density
+* Model gravity variation with altitude
+* Explore analytical or semi-analytical approximations for the quadratic-drag system
+
+## Conclusion
+
+This project began as a numerical simulation of projectile motion and developed into an investigation of the structure of a nonlinear physical system. The ideal projectile model provided a controlled environment for validating Euler's Method. Quadratic air resistance was then introduced and used to study how drag changes projectile trajectories and the optimal launch angle.
+
+Dimensional analysis revealed the parameter
+
+$$
+\alpha=\frac{cv_0^2}{mg},
+$$
+
+which combines the relevant physical quantities into a single dimensionless measure of drag strength. Computational experiments then tested this prediction by constructing physically different systems with identical values of $\alpha$. The resulting collapse of the normalized trajectories provides numerical evidence that the dimensionless parameter captures the underlying scaling of the system.
+
 ## Project Structure
 
 ```text
@@ -360,26 +381,3 @@ model = "drag"
 ```bash
 python main.py
 ```
-
-The program generates trajectory plots and performs the corresponding numerical analysis.
-
-## Future Improvements
-
-* Implement higher-order integration methods such as Runge-Kutta (RK4)
-* Compare the convergence and computational cost of different numerical integration methods
-* Add wind forces
-* Investigate non-uniform air density
-* Model gravity variation with altitude
-* Explore analytical or semi-analytical approximations for the quadratic-drag system
-
-## Conclusion
-
-This project began as a numerical simulation of projectile motion and developed into an investigation of the structure of a nonlinear physical system. The ideal projectile model provided a controlled environment for validating Euler's Method. Quadratic air resistance was then introduced and used to study how drag changes projectile trajectories and the optimal launch angle.
-
-Dimensional analysis revealed the parameter
-
-$$
-\alpha=\frac{cv_0^2}{mg},
-$$
-
-which combines the relevant physical quantities into a single dimensionless measure of drag strength. Computational experiments then tested this prediction by constructing physically different systems with identical values of $\alpha$. The resulting collapse of the normalized trajectories provides numerical evidence that the dimensionless parameter captures the underlying scaling of the system.
