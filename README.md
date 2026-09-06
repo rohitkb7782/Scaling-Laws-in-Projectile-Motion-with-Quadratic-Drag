@@ -12,7 +12,7 @@ the project tests whether different projectiles can have the same normalized beh
 
 ![Trajectory scaling](images/trajectory_scaling.png)
 
-**Figure 5.** *Normalized trajectories for three values of $\alpha$, with each value generated using three different combinations of $c$, $v_0$, and $m$. The close overlap shows the scaling predicted by $\alpha=cv_0^2/(mg)$.*
+**Figure 5.** *Normalized trajectories for three values of* $\alpha$, *with each value generated using three different combinations of* $c$, $v_0$, and $m$. *The close overlap shows the scaling predicted by* $\alpha=cv_0^2/(mg)$.
 
 ## Table of Contents
 
@@ -269,7 +269,7 @@ The drag parameter $c$ was varied while keeping the other physical parameters fi
 
 ![Drag Trajectories](images/drag_trajectories.png)
 
-**Figure 3.** *Projectile trajectories for different values of the quadratic drag parameter $c$, with the other physical parameters held fixed.*
+**Figure 3.** *Projectile trajectories for different values of the quadratic drag parameter* $c$, *with the other physical parameters held fixed.*
 
 ### 4. Optimal Launch Angle and Parameter Scaling
 
@@ -291,7 +291,7 @@ The resulting curves overlap closely, suggesting that the optimal launch angle i
 
 ![Optimal launch angle vs drag strength](images/optimal_angle_vs_drag.png)
 
-**Figure 4.** *Optimal launch angle as a function of drag strength. Different combinations of $c$, $v_0$, and $m$ produce similar results when they give the same value of $\alpha$.*
+**Figure 4.** *Optimal launch angle as a function of drag strength. Different combinations of* $c$, $v_0$, and $m$ *produce similar results when they give the same value of* $\alpha$.
 
 ### 5. Trajectory Scaling Test
 
@@ -321,7 +321,7 @@ and compared.
 
 ![Trajectory scaling](images/trajectory_scaling.png)
 
-**Figure 5.** *Normalized trajectories for three values of $\alpha$, with each value produced using three different combinations of $c$, $v_0$, and $m$. The close overlap agrees with the scaling predicted by $\alpha=cv_0^2/(mg)$.*
+**Figure 5.** *Normalized trajectories for three values of* $\alpha$, *with each value produced using three different combinations of* $c$, $v_0$, and $m$. *The close overlap agrees with the scaling predicted by* $\alpha=cv_0^2/(mg)$.
 
 The trajectories for the different parameterizations overlap closely for each value of $\alpha$. This supports the prediction from the nondimensionalized equations: once the system is scaled, the trajectory depends on $\alpha$ rather than separately on $c$, $v_0$, and $m$.
 
