@@ -1,56 +1,61 @@
 # Scaling Laws in Projectile Motion with Quadratic Drag
 
-A computational physics project investigating projectile motion through numerical simulation. The project begins with ideal projectile motion, where an analytical solution provides a way to validate Euler's Method, and then extends the model to include quadratic air resistance.
+A computational physics project using numerical simulation to study projectile motion with and without air resistance. The project starts with ideal projectile motion to test Euler's Method against the analytical solution, then adds quadratic drag to study how air resistance changes the trajectory and optimal launch angle.
 
-The drag model is used to investigate how aerodynamic resistance affects projectile trajectories, optimal launch angle, and the scaling of the system. In particular, the project explores whether the behavior of projectiles with different physical parameters can be described by a single dimensionless quantity.
+The main focus is on scaling. By combining the physical parameters into the dimensionless quantity
+
+$$
+\alpha=\frac{cv_0^2}{mg},
+$$
+
+the project tests whether different projectiles can have the same normalized behavior even when their individual physical parameters are different.
 
 ![Trajectory scaling](images/trajectory_scaling.png)
 
-**Figure 5.** Normalized trajectories for three values of $\alpha$, with each
-value generated through three independent parameterizations of $c$, $v_0$,
-and $m$. The close overlap demonstrates numerical agreement with the scaling
-predicted by $\alpha=cv_0^2/(mg)$.
+**Figure 5.** *Normalized trajectories for three values of $\alpha$, with each value generated using three different combinations of $c$, $v_0$, and $m$. The close overlap shows the scaling predicted by $\alpha=cv_0^2/(mg)$.*
 
 ## Table of Contents
 
-- [Motivation](#motivation)
-- [Mathematical Model](#mathematical-model)
-  - [Ideal Projectile Motion](#ideal-projectile-motion)
-  - [Quadratic Air Resistance](#quadratic-air-resistance)
-  - [Nondimensionalization](#nondimensionalization)
-- [Numerical Method](#numerical-method)
-- [Results](#results)
-  - [1. Numerical Convergence](#1-numerical-convergence)
-  - [2. Numerical Error](#2-numerical-error)
-  - [3. Effect of Quadratic Drag](#3-effect-of-quadratic-drag)
-  - [4. Optimal Launch Angle and Parameter Scaling](#4-optimal-launch-angle-and-parameter-scaling)
-  - [5. Trajectory Scaling Test](#5-trajectory-scaling-test)
-- [Key Findings](#key-findings)
-- [Future Improvements](#future-improvements)
-- [Conclusion](#conclusion)
-- [Project Structure](#project-structure)
-- [Requirements](#requirements)
-- [Running the Project](#running-the-project)
+* [Motivation](#motivation)
+* [Mathematical Model](#mathematical-model)
+
+  * [Ideal Projectile Motion](#ideal-projectile-motion)
+  * [Quadratic Air Resistance](#quadratic-air-resistance)
+  * [Nondimensionalization](#nondimensionalization)
+* [Numerical Method](#numerical-method)
+* [Results](#results)
+
+  * [1. Numerical Convergence](#1-numerical-convergence)
+  * [2. Numerical Error](#2-numerical-error)
+  * [3. Effect of Quadratic Drag](#3-effect-of-quadratic-drag)
+  * [4. Optimal Launch Angle and Parameter Scaling](#4-optimal-launch-angle-and-parameter-scaling)
+  * [5. Trajectory Scaling Test](#5-trajectory-scaling-test)
+* [Key Findings](#key-findings)
+* [Future Improvements](#future-improvements)
+* [Conclusion](#conclusion)
+* [Project Structure](#project-structure)
+* [Requirements](#requirements)
+* [Running the Project](#running-the-project)
 
 ## Motivation
 
-Projectile motion provides a useful system for exploring computational physics because its equations of motion can be solved numerically while the ideal case also has a known analytical solution.
+Projectile motion is a useful system for studying numerical methods because the ideal case has an analytical solution that can be used to check the numerical results.
 
-The project begins with ideal projectile motion to establish the accuracy and limitations of the numerical method. Quadratic air resistance is then introduced, producing a nonlinear system without a simple closed-form solution.
+I start with ideal projectile motion to test Euler's Method and see how its accuracy changes with timestep. I then add quadratic air resistance, which makes the equations nonlinear and removes the simple analytical solution.
 
-Rather than treating the drag coefficient as the only parameter controlling the system, the drag model is analyzed using dimensional analysis. This leads to the dimensionless parameter
+The main question is whether the behavior of the system can be described using one dimensionless parameter rather than the individual values of the drag coefficient, initial velocity, and mass. Dimensional analysis gives
 
 $$
-\alpha = \frac{cv_0^2}{mg},
+\alpha=\frac{cv_0^2}{mg}.
 $$
 
-which represents the characteristic magnitude of the initial drag force relative to the projectile's weight.
+This can be interpreted as a measure of the initial drag force compared with the projectile's weight.
 
-The main goal is to investigate whether $\alpha$ captures the relevant behavior of the system independently of the individual values of $c$, $v_0$, and $m$.
+The goal is to test whether systems with different values of $c$, $v_0$, and $m$ behave the same way after being scaled if they have the same value of $\alpha$.
 
 ## Mathematical Model
 
-The projectile is represented by the state vector:
+The projectile is represented by the state vector
 
 $$
 \mathbf{s} =
@@ -59,14 +64,14 @@ x \\
 y \\
 v_x \\
 v_y
-\end{bmatrix}
+\end{bmatrix}.
 $$
 
-The second-order equations of motion are rewritten as a coupled system of first-order differential equations so they can be integrated numerically using Euler's Method.
+The equations of motion are written as a system of first-order differential equations so they can be integrated numerically using Euler's Method.
 
 ### Ideal Projectile Motion
 
-For ideal projectile motion:
+For ideal projectile motion,
 
 $$
 \frac{dx}{dt}=v_x
@@ -81,10 +86,10 @@ $$
 $$
 
 $$
-\frac{dv_y}{dt}=-g
+\frac{dv_y}{dt}=-g.
 $$
 
-This set of differential equations can be solved analytically. Given an initial position $(x_0,y_0)$, initial speed $v_0$, and launch angle $\theta$, the initial velocity components are
+For an initial speed $v_0$ and launch angle $\theta$, the initial velocity components are
 
 $$
 v_{x,0}=v_0\cos\theta,
@@ -92,7 +97,7 @@ v_{x,0}=v_0\cos\theta,
 v_{y,0}=v_0\sin\theta.
 $$
 
-Integrating the equations of motion gives the position as a function of time:
+The analytical solution is
 
 $$
 x(t)=x_0+v_0\cos\theta\,t
@@ -104,25 +109,25 @@ $$
 y(t)=y_0+v_0\sin\theta\,t-\frac{1}{2}gt^2.
 $$
 
-For a projectile launched and landing at the same height, with $x_0=y_0=0$, the analytical range is
+For a projectile launched and landing at the same height, with $x_0=y_0=0$, the range is
 
 $$
 R=\frac{v_0^2\sin(2\theta)}{g}.
 $$
 
-This analytical solution provides a reference for validating the numerical Euler solution and measuring its error as the timestep is varied.
+This solution gives a reference for checking the numerical Euler solution and measuring its error as the timestep changes.
 
 ### Quadratic Air Resistance
 
 The drag force is modeled as
 
 $$
-\mathbf{F}_d=-\frac{1}{2}C_d\rho A|\mathbf{v}|\mathbf{v}
+\mathbf{F}_d=-\frac{1}{2}C_d\rho A|\mathbf{v}|\mathbf{v},
 $$
 
-where $C_d$ is the drag coefficient, $\rho$ is air density, and $A$ is cross-sectional area.
+where $C_d$ is the drag coefficient, $\rho$ is the air density, and $A$ is the cross-sectional area.
 
-These quantities are combined into the quadratic drag parameter
+For convenience, these quantities are combined into
 
 $$
 c=\frac{1}{2}C_d\rho A.
@@ -134,23 +139,27 @@ $$
 a_x=-\frac{c}{m}|\mathbf{v}|v_x
 $$
 
+and
+
 $$
 a_y=-g-\frac{c}{m}|\mathbf{v}|v_y.
 $$
 
-Unlike the ideal projectile model, the acceleration now depends on the instantaneous velocity, making the system nonlinear.
+Now the acceleration depends on the projectile's instantaneous velocity, making the system nonlinear.
 
 ### Nondimensionalization
 
-The appearance of $\alpha$ can be made explicit by nondimensionalizing the equations of motion. For the quadratic-drag model,
+The importance of $\alpha$ becomes clearer when the equations are nondimensionalized.
+
+For the quadratic-drag model,
 
 $$
 m\frac{d\mathbf{v}}{dt}=
 -mg\hat{\mathbf{y}}
--c|\mathbf{v}|\mathbf{v}
+-c|\mathbf{v}|\mathbf{v}.
 $$
 
-To nondimensionalize the system, the initial speed $v_0$ provides a characteristic velocity scale, while $g$ provides the characteristic acceleration scale. These quantities determine the corresponding characteristic time and length scales:
+The initial speed $v_0$ provides a natural velocity scale, while $g$ provides the acceleration scale. These give characteristic time and length scales
 
 $$
 T=\frac{v_0}{g},
@@ -158,33 +167,32 @@ T=\frac{v_0}{g},
 L=\frac{v_0^2}{g}.
 $$
 
-Define dimensionless position, time, and velocity variables by
+Define
 
 $$
 \mathbf{r}=L\mathbf{r}^\*,
 \qquad
 t=Tt^\*,
 \qquad
-\mathbf{v}=v_0\mathbf{v}^\*
+\mathbf{v}=v_0\mathbf{v}^\*.
 $$
 
 Then
 
 $$
 \frac{d\mathbf{v}}{dt}=
-\frac{v_0}{T}\frac{d\mathbf{v}^\*}{dt^\*}=
-g\frac{d\mathbf{v}^\*}{dt^\*}
+g\frac{d\mathbf{v}^\*}{dt^\*}.
 $$
 
-Substituting these scalings into the equation of motion gives
+Substituting these into the equation of motion gives
 
 $$
 mg\frac{d\mathbf{v}^\*}{dt^\*}=
 -mg\hat{\mathbf{y}}
--cv_0^2|\mathbf{v}^\*|\mathbf{v}^\*
+-cv_0^2|\mathbf{v}^\*|\mathbf{v}^\*.
 $$
 
-Dividing by $mg$ gives the dimensionless equation
+Dividing by $mg$ gives
 
 $$
 \frac{d\mathbf{v}^\*}{dt^\*}=
@@ -195,158 +203,168 @@ $$
 where
 
 $$
-\alpha=\frac{cv_0^2}{mg}
+\alpha=\frac{cv_0^2}{mg}.
 $$
 
-Thus, $\alpha$ is not simply a convenient dimensionless combination: it is the parameter that remains after the equations are nondimensionalized using the natural gravitational and launch-speed scales. This predicts that systems with different values of $c$, $v_0$, and $m$ should have the same dimensionless dynamics whenever they have the same $\alpha$.
+After this scaling, $c$, $v_0$, and $m$ no longer appear separately. This suggests that systems with the same $\alpha$ should have the same dimensionless trajectory.
 
 ## Numerical Method
 
-The equations of motion are solved using Euler's Method:
+The equations are solved using Euler's Method:
 
-$$ 
-\mathbf{s}_{n+1} =
+$$
+\mathbf{s}_{n+1}=
 \mathbf{s}_n
 +
 \Delta t
 \frac{d\mathbf{s}}{dt}.
 $$
 
-Because Euler's Method evaluates the derivative only at the beginning of each timestep, it approximates the solution using a local linear approximation. The local truncation error is $O(\Delta t^2)$, while the accumulated global error is $O(\Delta t)$.
+Euler's Method uses the derivative at the beginning of each timestep to approximate the solution. Its local truncation error is $O(\Delta t^2)$ and its global error is $O(\Delta t)$.
 
-The ideal projectile model provides an analytical reference against which this numerical error can be measured.
+The ideal projectile gives an analytical solution that can be used to measure this error directly.
 
-Because Euler's Method calculates the projectile at discrete time steps, the projectile will usually pass through $y=0$ between two calculated points. If the first point below the ground is $(x_2,y_2)$, the previous point $(x_1,y_1)$ is still above the ground.
+Since the simulation only calculates the projectile at discrete times, the final point will usually not land exactly on $y=0$. If the projectile moves from an above-ground point $(x_1,y_1)$ to a point below the ground $(x_2,y_2)$, I estimate the crossing point by assuming the motion between the two points is approximately linear.
 
-The impact point is estimated by assuming the motion is approximately linear between these two points. The fraction of the timestep needed to reach $y=0$ is
+The fraction of the timestep needed to reach $y=0$ is
 
 $$
 \alpha=\frac{y_1}{y_1-y_2}.
 $$
 
-The corresponding horizontal position is then
+The corresponding horizontal position is
 
 $$
 x_{\mathrm{ground}}=
 x_1+\alpha(x_2-x_1).
 $$
 
-Thus, instead of taking the first calculated point below the ground as the impact location, the code estimates where the projectile crosses $y=0$ within the final timestep. The interpolated point is then stored as the final point of the trajectory.
+This interpolated point is used as the final point of the trajectory instead of simply using the first point below the ground.
 
 ## Results
 
 ### 1. Numerical Convergence
 
-The ideal projectile model was simulated using several different timestep sizes. As the timestep was reduced, the numerical trajectories converged toward the analytical solution.
-
-This provides a visual demonstration of how the resolution of Euler's Method affects the numerical solution.
+The ideal projectile was simulated using several timestep sizes. As the timestep became smaller, the numerical trajectories moved closer to the analytical solution.
 
 ![Ideal Projectile Convergence](images/ideal_projectile.png)
 
-**Figure 1.** Ideal projectile trajectories calculated using different timestep sizes. As the timestep decreases, the numerical solution approaches the analytical trajectory.
+**Figure 1.** *Ideal projectile trajectories for different timestep sizes. The numerical solution approaches the analytical trajectory as the timestep decreases.*
 
 ### 2. Numerical Error
 
-The numerical error was then quantified by comparing the simulated range with the analytical range for different timestep sizes.
+I then compared the numerical range with the analytical range for different timestep sizes.
 
-The range error decreases approximately linearly with timestep size, consistent with the first-order global accuracy expected from Euler's Method.
+The range error decreases approximately linearly with timestep, which agrees with the first-order global accuracy expected from Euler's Method.
 
 ![Error vs. Step Size](images/error_vs_step_size.png)
 
-**Figure 2.** Range error as a function of timestep size for ideal projectile motion. The approximately linear relationship demonstrates the first-order convergence of Euler's Method.
+**Figure 2.** *Range error as a function of timestep for ideal projectile motion. The approximately linear relationship shows the first-order convergence of Euler's Method.*
 
 ### 3. Effect of Quadratic Drag
 
-After validating the numerical method using the ideal model, quadratic air resistance was introduced.
+After checking the numerical method against the ideal solution, quadratic air resistance was added to the model.
 
-The quadratic drag parameter $c$ was varied while keeping the other physical parameters fixed. Increasing $c$ increases the strength of aerodynamic resistance, producing shorter-range trajectories and changing the shape of the projectile's path.
+The drag parameter $c$ was varied while keeping the other physical parameters fixed. As $c$ increases, the projectile experiences stronger air resistance, resulting in shorter ranges and noticeably different trajectories.
 
 ![Drag Trajectories](images/drag_trajectories.png)
 
-**Figure 3.** Projectile trajectories for several values of the quadratic drag parameter $c$, with the remaining physical parameters held constant.
+**Figure 3.** *Projectile trajectories for different values of the quadratic drag parameter $c$, with the other physical parameters held fixed.*
 
 ### 4. Optimal Launch Angle and Parameter Scaling
 
-The launch angle producing the maximum horizontal range was determined computationally for different values of the quadratic drag parameter.
+Next, I looked at how the optimal launch angle changes when quadratic drag is present.
 
-A coarse-to-fine search was used to efficiently locate the optimal angle. The results show that the optimal launch angle changes systematically as the strength of drag changes.
+The angle that produces the maximum horizontal range was found computationally for different values of the drag parameter. A coarse-to-fine search was used to find the maximum without having to simulate every possible angle.
 
-To determine whether this behavior depends specifically on $c$, or instead on a combination of the physical parameters, the dimensionless quantity
+The optimal angle changes as the strength of the drag changes. This raises the question of whether the angle depends specifically on $c$, or whether it depends on a combination of the physical parameters.
+
+Using
 
 $$
-\alpha=\frac{cv_0^2}{mg}
+\alpha=\frac{cv_0^2}{mg},
 $$
 
-was introduced.
+I varied $c$, $v_0$, and $m$ independently while keeping $\alpha$ fixed.
 
-This quantity represents the characteristic initial drag force relative to the projectile's weight. The optimal-angle calculation was repeated while varying $c$, $v_0$, and $m$ independently, while keeping $\alpha$ fixed.
-
-The resulting curves overlap closely, suggesting that the optimal launch angle is governed by $\alpha$ rather than by any one of its constituent parameters.
+The resulting curves overlap closely, suggesting that the optimal launch angle is controlled by $\alpha$ rather than by any one of the individual parameters.
 
 ![Optimal launch angle vs drag strength](images/optimal_angle_vs_drag.png)
 
-**Figure 4.** Optimal launch angle as a function of drag strength, showing the overlap obtained from different parameterizations that produce the same dimensionless parameter $\alpha$.
+**Figure 4.** *Optimal launch angle as a function of drag strength. Different combinations of $c$, $v_0$, and $m$ produce similar results when they give the same value of $\alpha$.*
 
 ### 5. Trajectory Scaling Test
 
-The final experiment tests whether the scaling described by $\alpha$ applies to the entire trajectory, rather than only to the optimal launch angle.
+The final test asks whether the scaling with $\alpha$ applies to the entire trajectory, rather than just the optimal launch angle.
 
-For each of
+I used three values,
 
 $$
 \alpha=0.2,\quad 0.5,\quad 0.8,
 $$
 
-three physically different parameterizations were constructed:
+and created three different parameterizations for each one:
 
-* varying $c$ while fixing $v_0$ and $m$,
-* varying $v_0$ while fixing $c$ and $m$,
-* varying $m$ while fixing $c$ and $v_0$.
+* varying $c$ while keeping $v_0$ and $m$ fixed,
+* varying $v_0$ while keeping $c$ and $m$ fixed,
+* varying $m$ while keeping $c$ and $v_0$ fixed.
 
-In each case, the parameters were chosen so that the resulting systems had the same value of $\alpha$. The trajectories were then nondimensionalized using $X = gx/v_0^2$ and $Y = gy/v_0^2$, and the resulting dimensionless trajectories were compared.
+The parameters were chosen so that each system had the same $\alpha$. The trajectories were then normalized using
+
+$$
+X=\frac{gx}{v_0^2},
+\qquad
+Y=\frac{gy}{v_0^2},
+$$
+
+and compared.
 
 ![Trajectory scaling](images/trajectory_scaling.png)
 
-**Figure 5.** Normalized trajectories for three values of $\alpha$, with each value generated through three independent parameterizations of $c$, $v_0$, and $m$. The close overlap demonstrates numerical agreement with the scaling predicted by $\alpha=cv_0^2/(mg)$.
+**Figure 5.** *Normalized trajectories for three values of $\alpha$, with each value produced using three different combinations of $c$, $v_0$, and $m$. The close overlap agrees with the scaling predicted by $\alpha=cv_0^2/(mg)$.*
 
-The three parameterizations closely overlap for each value of $\alpha$. This supports the prediction that, after nondimensionalization, the trajectory depends on the combined parameter $\alpha$ rather than independently on $c$, $v_0$, and $m$.
+The trajectories for the different parameterizations overlap closely for each value of $\alpha$. This supports the prediction from the nondimensionalized equations: once the system is scaled, the trajectory depends on $\alpha$ rather than separately on $c$, $v_0$, and $m$.
 
 ## Key Findings
 
-* Euler's Method converges toward the analytical solution for ideal projectile motion with first-order global accuracy.
-* Quadratic air resistance reduces range and maximum height and changes the shape of the trajectory.
-* The optimal launch angle is not fixed at $45^\circ$ when quadratic drag is present.
+* Euler's Method approaches the analytical solution as the timestep decreases and shows first-order global convergence.
+* Quadratic drag reduces the projectile's range and changes the shape of its trajectory.
+* The optimal launch angle changes when air resistance is included.
 * The dimensionless quantity
 
 $$
 \alpha=\frac{cv_0^2}{mg}
 $$
 
-provides a natural measure of drag strength relative to gravity.
+provides a measure of the strength of drag relative to gravity.
 
-* Different combinations of $c$, $v_0$, and $m$ that produce the same $\alpha$ generate closely overlapping normalized trajectories.
-* The computational results therefore support the idea that $\alpha$ is the relevant dimensionless parameter governing the scaled drag problem.
+* Different combinations of $c$, $v_0$, and $m$ with the same $\alpha$ produce closely matching normalized trajectories.
+* The results support $\alpha$ as the main dimensionless parameter controlling the scaled behavior of the system.
 
 ## Future Improvements
 
-* Implement higher-order integration methods such as Runge-Kutta (RK4)
-* Compare the convergence and computational cost of different numerical integration methods
-* Add wind forces
-* Investigate non-uniform air density
-* Model gravity variation with altitude
-* Explore analytical or semi-analytical approximations for the quadratic-drag system
+* Add higher-order methods such as RK4.
+* Compare the accuracy and computational cost of different numerical methods.
+* Add wind to the model.
+* Investigate non-uniform air density.
+* Allow gravity to vary with altitude.
+* Explore analytical or approximate solutions for the quadratic-drag model.
 
 ## Conclusion
 
-This project began as a numerical simulation of projectile motion and developed into an investigation of the structure of a nonlinear physical system. The ideal projectile model provided a controlled environment for validating Euler's Method. Quadratic air resistance was then introduced and used to study how drag changes projectile trajectories and the optimal launch angle.
+This project started with a basic simulation of projectile motion and developed into an investigation of how air resistance changes the behavior of the system.
 
-Dimensional analysis revealed the parameter
+The ideal projectile provided a useful test case for Euler's Method because its analytical solution makes it possible to directly measure numerical error. After adding quadratic drag, the system became nonlinear and no longer had a simple closed-form solution.
+
+The most interesting result came from nondimensionalizing the equations. This led to
 
 $$
 \alpha=\frac{cv_0^2}{mg},
 $$
 
-which combines the relevant physical quantities into a single dimensionless measure of drag strength. Computational experiments then tested this prediction by constructing physically different systems with identical values of $\alpha$. The resulting collapse of the normalized trajectories provides numerical evidence that the dimensionless parameter captures the underlying scaling of the system.
+which combines the drag coefficient, initial velocity, and mass into a single dimensionless parameter.
+
+I tested this by creating physically different systems with the same value of $\alpha$. After normalizing their trajectories, the results closely overlapped. This suggests that $\alpha$ captures the main scaling behavior of projectile motion with quadratic drag.
 
 ## Project Structure
 
@@ -383,7 +401,7 @@ pip install -r requirements.txt
 
 ### 3. Select the Projectile Model
 
-Open `main.py` and select the desired model using the `model` variable.
+Open `main.py` and select the model using the `model` variable.
 
 For ideal projectile motion:
 
