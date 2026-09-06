@@ -1,4 +1,4 @@
-# Scaling Laws in Projectile Motion with Quadratic Drag
+# Projectile Motion with Quadratic Drag
 
 A computational physics project using numerical simulation to study projectile motion with and without air resistance. The project starts with ideal projectile motion to test Euler's Method against the analytical solution, then adds quadratic drag to study how air resistance changes the trajectory and optimal launch angle.
 
@@ -369,7 +369,7 @@ I tested this by creating physically different systems with the same value of $\
 ## Project Structure
 
 ```text
-Scaling-Laws-in-Projectile-Motion-with-Quadratic-Drag/
+Projectile-Motion-with-Quadratic-Drag/
 ├── main.py
 ├── physics.py
 ├── solvers.py
@@ -389,8 +389,8 @@ Scaling-Laws-in-Projectile-Motion-with-Quadratic-Drag/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/rohitkb7782/Scaling-Laws-in-Projectile-Motion-with-Quadratic-Drag.git
-cd Scaling-Laws-in-Projectile-Motion-with-Quadratic-Drag
+git clone https://github.com/rohitkb7782/Projectile-Motion-with-Quadratic-Drag.git
+cd Projectile-Motion-with-Quadratic-Drag
 ```
 
 ### 2. Install the dependencies
