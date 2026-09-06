@@ -11,6 +11,27 @@ value generated through three independent parameterizations of $c$, $v_0$,
 and $m$. The close overlap demonstrates numerical agreement with the scaling
 predicted by $\alpha=cv_0^2/(mg)$.
 
+## Table of Contents
+
+- [Motivation](#motivation)
+- [Mathematical Model](#mathematical-model)
+  - [Ideal Projectile Motion](#ideal-projectile-motion)
+  - [Quadratic Air Resistance](#quadratic-air-resistance)
+  - [Nondimensionalization](#nondimensionalization)
+- [Numerical Method](#numerical-method)
+- [Results](#results)
+  - [1. Numerical Convergence](#1-numerical-convergence)
+  - [2. Numerical Error](#2-numerical-error)
+  - [3. Effect of Quadratic Drag](#3-effect-of-quadratic-drag)
+  - [4. Optimal Launch Angle and Parameter Scaling](#4-optimal-launch-angle-and-parameter-scaling)
+  - [5. Trajectory Scaling Test](#5-trajectory-scaling-test)
+- [Key Findings](#key-findings)
+- [Future Improvements](#future-improvements)
+- [Conclusion](#conclusion)
+- [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Running the Project](#running-the-project)
+
 ## Motivation
 
 Projectile motion provides a useful system for exploring computational physics because its equations of motion can be solved numerically while the ideal case also has a known analytical solution.
